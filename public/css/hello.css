@@ -1,0 +1,13 @@
+.menu{
+	color: black;
+}
+.menu ul{
+	clear: both;
+	display: inline-block;
+}
+
+.menu ul li{
+	float: left;
+	min-width: 120px;
+	list-style-type: none;
+}
