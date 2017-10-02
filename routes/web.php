@@ -22,3 +22,5 @@ Route::get('/hello', function() {
 Route::get('/capital', 'CapitalController@index')->name('capital');
 
 Route::get('/capital/getText', 'CapitalController@getText')->name('getText');
+
+Route::get('/tank-game', 'TankGameController@index')->name('tankGame');
