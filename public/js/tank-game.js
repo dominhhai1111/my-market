@@ -108,6 +108,40 @@ function Tank()
     };
 }
 
+function AutoTank(){
+    this.tankImage = "";
+    this.x = 50;
+    this.y = 650;
+    this.dx = 5;
+    this.dy = 5;
+    this.width = 100;
+    this.height = 100;
+    this.bullets = [];
+    this.direction = +2;
+
+    this.draw = function()
+    {
+        context.drawImage(this.tankImage, this.x, this.y, this.width, this.height);
+    };
+
+    this.setTankImage = function(img)
+    {
+        this.tankImage = img;
+    };
+
+    this.update = function()
+    {
+        context.clearRect(this.x, this.y, this.width, this.height);
+        switch (this.direction) {
+            case -1: this.y -= this.dy; break;
+            case +1: this.y += this.dy; break;
+            case -2: this.x -= this.dx; break;
+            case +2: this.x += this.dx; break;
+        }
+        this.draw();    
+    };
+}
+
 function removeElementInArray(my_array, i)
 {
     var arr01 = my_array.slice(0, i);
@@ -173,6 +207,7 @@ function removeBlock(i) {
     var block = blocks[i];
     context.clearRect(block.x-1, block.y-1 , block.width+2, block.height+2);
     blocks = removeElementInArray(blocks, i);
+    console.log(blocks);
 }
 
 function BurnAnimation(x, y) {
@@ -199,7 +234,7 @@ function BurnAnimation(x, y) {
         } else {
             context.clearRect(this.x, this.y, this.width, this.height);
         }
-        if (this.currentIndex == 4) {
+        if (this.currentIndex > 4) {
             this.currentIndex = 0;
             this.repeat ++;
         }
@@ -228,6 +263,7 @@ function animate()
                 var block = blocks[j];
                 if (checkCollision(tank.bullets[i].x, block.x, tank.bullets[i].y, block.y, tank.bullets[i].r, block.width, tank.bullets[i].r, block.height)) {
                     /*context.clearRect(block.x-1, block.y-1 , block.width+2, block.height+2);*/
+                    console.log("fire");
                     burnAnimations.push(new BurnAnimation(block.x, block.y));
                     removeBlock(j);
                     tank.removeFire(i);
@@ -244,17 +280,30 @@ function animate()
     if (burnAnimations.length != 0) {
         for (var i = 0; i < burnAnimations.length; i++) {
             burnAnimations[i].update();
+            if(burnAnimations[i].repeat > 15){
+                context.clearRect(burnAnimations[i].x, burnAnimations[i].y, burnAnimations[i].width, burnAnimations[i].height);
+                burnAnimations = removeElementInArray(burnAnimations, i);
+            }
         }
     }
+
+    autoTank.update();
 }
 
 var tank = new Tank();
 tank.setTankImage(imgTankR);
 tank.draw();
 
+var autoTank = new AutoTank();
+autoTank.setTankImage(imgTankR);
+autoTank.draw();
+
 var blocks = [];
 var block1 = new Block(750, 50);
+var block2 = new Block(750, 250);
 blocks.push(block1);
+blocks.push(block2);
+console.log(blocks);
 for (var i = 0; i < blocks.length; i++) {
     blocks[i].draw();
 }
