@@ -23,7 +23,8 @@ window.addEventListener("keydown", function (event) {
         tank.moveUp();
     } else if (event.code == "ArrowDown") {
         tank.moveDown();
-    } else if (event.code == "Space") {
+    }
+    if (event.code == "Space") {
         tank.fire();
     }
     console.log(event.code);
@@ -110,7 +111,7 @@ function Tank()
 
 function AutoTank(){
     this.tankImage = "";
-    this.x = 50;
+    this.x = 450;
     this.y = 650;
     this.dx = 5;
     this.dy = 5;
@@ -132,6 +133,9 @@ function AutoTank(){
     this.update = function()
     {
         context.clearRect(this.x, this.y, this.width, this.height);
+        if(this.x + this.width > canvas.width || this.x < 0 || this.y + this.height > canvas.height || this.y < 0){
+            this.direction = -this.direction;
+        }
         switch (this.direction) {
             case -1: this.y -= this.dy; break;
             case +1: this.y += this.dy; break;
