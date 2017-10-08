@@ -1,6 +1,6 @@
 var canvas = document.getElementById("myCanvas");
-canvas.width = 0.9 * window.innerWidth ;
-canvas.height = 0.85 * window.innerHeight ;
+canvas.width = window.innerWidth ;
+canvas.height = window.innerHeight ;
 var context = canvas.getContext("2d");
 
 var imgTankU = document.getElementById("tankU");
